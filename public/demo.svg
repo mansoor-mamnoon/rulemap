@@ -1,146 +1,86 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="840" height="540" viewBox="0 0 840 540" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="520" viewBox="0 0 840 520" fill="none">
   <style>
-    @keyframes blink { 0%,49% { opacity: 1 } 50%,100% { opacity: 0 } }
-    @keyframes typeCmd { 0% { width: 0 } 100% { width: 100% } }
-    @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-    .cursor { animation: blink 1s step-end infinite }
     .t { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace; font-size: 13px; }
+    .sm { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace; font-size: 12px; }
     .dim { fill: #8b9286 }
-    .white { fill: #e8ebe4 }
-    .green { fill: #22a559 }
-    .red { fill: #c0392b }
-    .yellow { fill: #b68d1a }
-    .accent { fill: #d7fa87 }
-    .bold { font-weight: 700 }
-    .heading { fill: #d7fa87; font-weight: 700; font-size: 13px; }
-
-    .line1 { opacity: 0; animation: fadeIn 0.05s 0.8s forwards }
-    .line2 { opacity: 0; animation: fadeIn 0.05s 1.0s forwards }
-    .line3 { opacity: 0; animation: fadeIn 0.05s 1.2s forwards }
-    .line4 { opacity: 0; animation: fadeIn 0.05s 1.5s forwards }
-    .line5 { opacity: 0; animation: fadeIn 0.05s 1.7s forwards }
-    .line6 { opacity: 0; animation: fadeIn 0.05s 1.9s forwards }
-    .line7 { opacity: 0; animation: fadeIn 0.05s 2.1s forwards }
-    .line8 { opacity: 0; animation: fadeIn 0.05s 2.3s forwards }
-    .line9 { opacity: 0; animation: fadeIn 0.05s 2.5s forwards }
-    .line10 { opacity: 0; animation: fadeIn 0.05s 2.7s forwards }
-    .line11 { opacity: 0; animation: fadeIn 0.05s 2.9s forwards }
-    .line12 { opacity: 0; animation: fadeIn 0.05s 3.1s forwards }
-    .line13 { opacity: 0; animation: fadeIn 0.05s 3.3s forwards }
-    .line14 { opacity: 0; animation: fadeIn 0.05s 3.5s forwards }
-    .line15 { opacity: 0; animation: fadeIn 0.05s 3.7s forwards }
-    .line16 { opacity: 0; animation: fadeIn 0.05s 3.9s forwards }
-    .line17 { opacity: 0; animation: fadeIn 0.05s 4.1s forwards }
-    .line18 { opacity: 0; animation: fadeIn 0.05s 4.3s forwards }
-    .line19 { opacity: 0; animation: fadeIn 0.05s 4.5s forwards }
-    .line20 { opacity: 0; animation: fadeIn 0.05s 4.7s forwards }
+    .wh { fill: #e8ebe4 }
+    .gr { fill: #22a559 }
+    .rd { fill: #c0392b }
+    .yl { fill: #b68d1a }
+    .ac { fill: #d7fa87 }
+    .bd { font-weight: 700 }
   </style>
 
-  <!-- Terminal window -->
-  <rect width="840" height="540" rx="12" fill="#1a1e1c"/>
-
-  <!-- Title bar -->
+  <!-- Terminal chrome -->
+  <rect width="840" height="520" rx="12" fill="#1a1e1c"/>
   <rect width="840" height="38" rx="12" fill="#252a27"/>
   <rect y="26" width="840" height="12" fill="#252a27"/>
   <circle cx="20" cy="19" r="6" fill="#ff5f56"/>
   <circle cx="40" cy="19" r="6" fill="#ffbd2e"/>
   <circle cx="60" cy="19" r="6" fill="#27c93f"/>
-  <text x="420" y="23" text-anchor="middle" class="t dim" font-size="12">rulemap — Terminal</text>
+  <text x="420" y="23" text-anchor="middle" class="sm dim">rulemap — Terminal</text>
 
-  <!-- Prompt line -->
-  <text x="24" y="68" class="t">
-    <tspan class="accent">~</tspan><tspan class="dim">/</tspan><tspan class="accent">my-project</tspan>
-    <tspan class="dim"> $</tspan>
-    <tspan class="white"> npx rulemap inspect . --file src/auth.ts</tspan>
-  </text>
+  <!-- Prompt -->
+  <text x="24" y="68" class="t ac">~/my-project</text>
+  <text x="130" y="68" class="t dim">$</text>
+  <text x="144" y="68" class="t wh">npx rulemap inspect . --file src/auth.ts</text>
 
-  <!-- Output header -->
-  <g class="line1">
-    <text x="24" y="100" class="t heading">Rulemap · Codex</text>
-  </g>
-  <g class="line2">
-    <text x="24" y="118" class="t dim">File: src/auth.ts | Launch directory: src</text>
-  </g>
-  <g class="line3">
-    <text x="24" y="136" class="t dim">Expected applicability · profile 2026-10-17</text>
-  </g>
+  <!-- Header -->
+  <text x="24" y="100" class="t ac bd">Rulemap · Codex</text>
+  <text x="24" y="118" class="sm dim">File: src/auth.ts | Launch directory: src</text>
+  <text x="24" y="134" class="sm dim">Expected applicability · profile 2026-10-17</text>
 
-  <!-- Rule 1: INCLUDED -->
-  <g class="line4">
-    <rect x="24" y="156" width="790" height="52" rx="6" fill="#1e2e24" stroke="#22a559" stroke-width="1" opacity="0.6"/>
-    <text x="40" y="175" class="t green bold">INCLUDED</text>
-    <text x="130" y="175" class="t dim">·</text>
-    <text x="144" y="175" class="t white bold">AGENTS.md</text>
-    <text x="260" y="175" class="t dim">:1-3</text>
-    <text x="40" y="196" class="t dim" font-size="12">First non-empty candidate in the root-to-launch-directory chain.</text>
-  </g>
+  <!-- Rule 1: INCLUDED AGENTS.md -->
+  <rect x="24" y="150" width="790" height="50" rx="6" fill="#1e2e24" stroke="#22a559" stroke-width="1" opacity="0.7"/>
+  <text x="40" y="170" class="t gr bd">INCLUDED</text>
+  <text x="130" y="170" class="t dim">·</text>
+  <text x="142" y="170" class="t wh bd">AGENTS.md</text>
+  <text x="250" y="170" class="t dim">:1-3</text>
+  <text x="40" y="189" class="sm dim">First non-empty candidate in the root-to-launch-directory chain.</text>
 
-  <!-- Rule 2: EXCLUDED -->
-  <g class="line6">
-    <rect x="24" y="218" width="790" height="52" rx="6" fill="#2a1f1f" stroke="#c0392b" stroke-width="1" opacity="0.6"/>
-    <text x="40" y="237" class="t red bold">EXCLUDED</text>
-    <text x="130" y="237" class="t dim">·</text>
-    <text x="144" y="237" class="t white bold">docs/AGENTS.md</text>
-    <text x="315" y="237" class="t dim">:1-2</text>
-    <text x="40" y="258" class="t dim" font-size="12">Outside the launch directory ancestry (src); target file does not change launch-time discovery.</text>
-  </g>
+  <!-- Rule 2: EXCLUDED docs/AGENTS.md -->
+  <rect x="24" y="210" width="790" height="50" rx="6" fill="#2a1f1f" stroke="#c0392b" stroke-width="1" opacity="0.5"/>
+  <text x="40" y="230" class="t rd bd">EXCLUDED</text>
+  <text x="131" y="230" class="t dim">·</text>
+  <text x="142" y="230" class="t wh bd">docs/AGENTS.md</text>
+  <text x="305" y="230" class="t dim">:1-2</text>
+  <text x="40" y="249" class="sm dim">Outside the launch directory ancestry (src); target file does not change discovery.</text>
 
-  <!-- Rule 3: EXCLUDED with override -->
-  <g class="line8">
-    <rect x="24" y="280" width="790" height="52" rx="6" fill="#2a1f1f" stroke="#c0392b" stroke-width="1" opacity="0.6"/>
-    <text x="40" y="299" class="t red bold">EXCLUDED</text>
-    <text x="130" y="299" class="t dim">·</text>
-    <text x="144" y="299" class="t white bold">src/AGENTS.md</text>
-    <text x="307" y="299" class="t dim">:1-4</text>
-    <text x="40" y="320" class="t dim" font-size="12">src/AGENTS.override.md takes precedence; Codex selects one non-empty file per directory.</text>
-  </g>
+  <!-- Rule 3: EXCLUDED src/AGENTS.md -->
+  <rect x="24" y="270" width="790" height="50" rx="6" fill="#2a1f1f" stroke="#c0392b" stroke-width="1" opacity="0.5"/>
+  <text x="40" y="290" class="t rd bd">EXCLUDED</text>
+  <text x="131" y="290" class="t dim">·</text>
+  <text x="142" y="290" class="t wh bd">src/AGENTS.md</text>
+  <text x="295" y="290" class="t dim">:1-4</text>
+  <text x="40" y="309" class="sm dim">src/AGENTS.override.md takes precedence; Codex selects one file per directory.</text>
 
-  <!-- Rule 4: INCLUDED override -->
-  <g class="line10">
-    <rect x="24" y="342" width="790" height="52" rx="6" fill="#1e2e24" stroke="#22a559" stroke-width="1" opacity="0.6"/>
-    <text x="40" y="361" class="t green bold">INCLUDED</text>
-    <text x="130" y="361" class="t dim">·</text>
-    <text x="144" y="361" class="t white bold">src/AGENTS.override.md</text>
-    <text x="407" y="361" class="t dim">:1-3</text>
-    <text x="40" y="382" class="t dim" font-size="12">Override selected in the root-to-launch-directory chain.</text>
-  </g>
+  <!-- Rule 4: INCLUDED src/AGENTS.override.md -->
+  <rect x="24" y="330" width="790" height="50" rx="6" fill="#1e2e24" stroke="#22a559" stroke-width="1" opacity="0.7"/>
+  <text x="40" y="350" class="t gr bd">INCLUDED</text>
+  <text x="130" y="350" class="t dim">·</text>
+  <text x="142" y="350" class="t wh bd">src/AGENTS.override.md</text>
+  <text x="398" y="350" class="t dim">:1-3</text>
+  <text x="40" y="369" class="sm dim">Override selected in the root-to-launch-directory chain.</text>
 
-  <!-- Separator -->
-  <g class="line12">
-    <line x1="24" y1="410" x2="814" y2="410" stroke="#333" stroke-width="1"/>
-  </g>
+  <!-- Divider -->
+  <line x1="24" y1="396" x2="814" y2="396" stroke="#333" stroke-width="1"/>
 
   <!-- Summary -->
-  <g class="line13">
-    <text x="24" y="432" class="t">
-      <tspan class="green bold">2 included</tspan>
-      <tspan class="dim"> · </tspan>
-      <tspan class="red bold">2 excluded</tspan>
-      <tspan class="dim"> · </tspan>
-      <tspan class="yellow bold">0 conditional</tspan>
-      <tspan class="dim"> · 482 bytes loaded</tspan>
-    </text>
-  </g>
+  <text x="24" y="420" class="t gr bd">2 included</text>
+  <text x="120" y="420" class="t dim">·</text>
+  <text x="135" y="420" class="t rd bd">2 excluded</text>
+  <text x="235" y="420" class="t dim">·</text>
+  <text x="250" y="420" class="t yl bd">0 conditional</text>
+  <text x="380" y="420" class="t dim">· 482 bytes loaded</text>
 
-  <!-- Hint line -->
-  <g class="line15">
-    <text x="24" y="460" class="t dim" font-size="12">Add --web to open an interactive viewer with live editing and agent comparison.</text>
-  </g>
+  <!-- Hint -->
+  <text x="24" y="448" class="sm dim">Add --web to open the interactive viewer with live editing and agent comparison.</text>
 
-  <!-- Second command prompt -->
-  <g class="line17">
-    <text x="24" y="496" class="t">
-      <tspan class="accent">~</tspan><tspan class="dim">/</tspan><tspan class="accent">my-project</tspan>
-      <tspan class="dim"> $</tspan>
-      <tspan class="white"> npx rulemap compare . --file src/auth.ts --profiles codex,claude</tspan>
-    </text>
-  </g>
-  <g class="line19">
-    <text x="24" y="520" class="t dim" font-size="12">Same repository. Codex sees 2 rules. Claude Code sees 5. One agent misses your security policy.</text>
-  </g>
+  <!-- Second prompt -->
+  <text x="24" y="482" class="t ac">~/my-project</text>
+  <text x="130" y="482" class="t dim">$</text>
+  <text x="144" y="482" class="t wh">npx rulemap compare . --file src/auth.ts --profiles codex,claude</text>
 
-  <!-- Blinking cursor at the end -->
-  <g class="line20">
-    <rect x="24" y="528" width="8" height="2" class="cursor accent" fill="#d7fa87"/>
-  </g>
+  <!-- Compare result hint -->
+  <text x="24" y="504" class="sm dim">Same repository. Codex sees 2 rules. Claude Code sees 5. One agent misses your security policy.</text>
 </svg>
