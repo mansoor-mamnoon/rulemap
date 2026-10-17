@@ -1,83 +1,95 @@
 <p align="center">
-  <img src="public/favicon.svg" width="80" height="80" alt="Rulemap" />
+  <img src="public/favicon.svg" width="64" height="64" alt="Rulemap" />
 </p>
 
 <h1 align="center">Rulemap</h1>
 
 <p align="center">
-  <strong>See which instructions your coding agent loads, and why.</strong><br>
-  A local visual debugger for <code>AGENTS.md</code>, <code>CLAUDE.md</code>, Cursor rules, and GitHub Copilot instructions.
+  <strong>Your coding agent has rules. Do you know which ones actually apply?</strong>
 </p>
 
 <p align="center">
-  <a href="https://mansoor-mamnoon.github.io/rulemap/">Try the live demo</a>&nbsp;&nbsp;·&nbsp;&nbsp;
-  <a href="#quickstart">Quickstart</a>&nbsp;&nbsp;·&nbsp;&nbsp;
-  <a href="#why">Why?</a>
+  <a href="https://github.com/mansoor-mamnoon/rulemap/actions/workflows/ci.yml"><img src="https://github.com/mansoor-mamnoon/rulemap/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>&nbsp;
+  <a href="https://github.com/mansoor-mamnoon/rulemap/blob/main/LICENSE"><img src="https://img.shields.io/github/license/mansoor-mamnoon/rulemap" alt="License" /></a>&nbsp;
+  <a href="https://www.npmjs.com/package/rulemap"><img src="https://img.shields.io/npm/v/rulemap" alt="npm" /></a>
 </p>
 
----
+<p align="center">
+  <a href="https://mansoor-mamnoon.github.io/rulemap/">Live demo</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="#try-it">Try it</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="#why-this-exists">Why?</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="#supported-agents">Agents</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="#web-viewer">Web viewer</a>
+</p>
 
-## The problem
+<br>
 
-You write an `AGENTS.md` with testing rules. You add a `.claude/rules/security.md` with path-scoped validation. You drop a `.cursor/rules/release.mdc` for changelog checks.
+<p align="center">
+  <img src="public/demo.svg" alt="Rulemap CLI demo — inspecting which agent instructions apply to src/auth.ts" width="840" />
+</p>
+
+<br>
+
+## Try it
+
+```bash
+npx rulemap inspect . --file src/auth.ts --web
+```
+
+One command. No API key, no account, no telemetry. Everything runs locally.
+
+## Why this exists
+
+You write an `AGENTS.md` with testing rules. You add `.claude/rules/security.md` for path-scoped validation. You drop `.cursor/rules/release.mdc` for changelog checks.
 
 Then your agent ignores half of them.
 
-Each coding agent (Codex, Claude Code, Cursor, Copilot) discovers instructions differently. Some walk the directory tree. Some check frontmatter globs. Some pick one file per directory and skip the rest. The rules are documented — but scattered across four different docs, and nobody reads all four before debugging a bad agent response.
+Each coding agent discovers instructions differently. Codex walks the directory tree with override priority. Claude Code checks frontmatter globs and expands `@import` chains. Cursor reads `.mdc` files with `alwaysApply` and description-based routing. Copilot looks for `applyTo` fields in `.github/instructions/`.
 
-**Rulemap shows you exactly which instructions apply to a given file, for a given agent, and explains why each one is included, excluded, or conditional.**
+The rules are documented, but they're scattered across four different docs. Nobody reads all four before wondering why their agent skipped a rule.
 
-## Quickstart
+**Rulemap shows you exactly which instructions apply to a given file, for a given agent, and tells you why each one is included, excluded, or conditional.**
 
-```bash
-# Inspect your repo for a specific file
-npx rulemap inspect . --file src/auth.ts --web
+## What you get
 
-# Compare what Codex vs Claude sees
-npx rulemap compare . --file src/auth.ts --profiles codex,claude
+For every instruction file in your repo:
 
-# See all available agent profiles
-npx rulemap profiles
-```
-
-No API key. No account. No telemetry. No file upload. Everything runs locally.
-
-## What it does
-
-Pick a file in your repository and an agent profile. Rulemap scans your instruction files and tells you:
-
-| Status | Meaning |
-|--------|---------|
-| **Included** | This instruction loads for the selected file |
-| **Excluded** | This instruction exists but won't load — with the specific reason |
-| **Conditional** | Loading depends on runtime context (agent-requested rules, path matching, etc.) |
-
-For every instruction file, you get:
-- The exact reason it's included or excluded
-- Its byte size (relevant for Codex's 32KB budget)
-- Its load order
-- Import chain tracking (Claude's `@import` system)
-- Frontmatter validation warnings
+| | |
+|---|---|
+| **Status** | Included, excluded, or conditional — with the exact reason |
+| **Load order** | The sequence your agent reads them in |
+| **Byte size** | Relevant for Codex's 32 KB instruction budget |
+| **Import chain** | Tracks Claude Code's `@import` expansion |
+| **Frontmatter warnings** | Catches bad globs, missing fields, invalid YAML |
 
 ## Supported agents
 
 | Profile | What it models |
 |---------|----------------|
 | **Codex** | `AGENTS.md` / `AGENTS.override.md` discovery, directory chain, byte budget |
-| **Claude Code** | `CLAUDE.md` memories, `.claude/rules/` with path scoping, `@import` expansion, AGENTS fallback |
+| **Claude Code** | `CLAUDE.md`, `.claude/rules/` with path scoping, `@import` expansion, `AGENTS.md` fallback |
 | **Cursor** | `.cursor/rules/*.mdc` with `alwaysApply`, `globs`, `description` routing, plus `AGENTS.md` |
 | **Copilot** | `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md` with `applyTo` |
 
 Profiles are based on each agent's public documentation as of October 2026. They model documented repository rules, not observed model behavior.
 
-## CLI reference
+## CLI
 
-```
-rulemap inspect [root] --file <path>     Show the instruction map
-rulemap explain [root] --file <path>     Same as inspect (alias)
-rulemap compare [root] --file <path>     Side-by-side two profiles
-rulemap demo [--web] [--example <id>]    Run a built-in example
-rulemap profiles                         List supported profiles
+```bash
+# Inspect instructions for a specific file
+npx rulemap inspect . --file src/auth.ts
+
+# Open the interactive web viewer
+npx rulemap inspect . --file src/auth.ts --web
+
+# Compare what two agents see from the same repo
+npx rulemap compare . --file src/auth.ts --profiles codex,claude
+
+# Run a built-in demo scenario
+npx rulemap demo --web
+
+# List all agent profiles
+npx rulemap profiles
 ```
 
 ### Options
@@ -86,7 +98,7 @@ rulemap profiles                         List supported profiles
 |------|---------|-------------|
 | `--profile <name>` | `codex` | Agent profile to use |
 | `--format <fmt>` | `text` | Output: `text`, `json`, `markdown`, `html` |
-| `--web` | — | Open an interactive local viewer in your browser |
+| `--web` | — | Open an interactive local viewer |
 | `--output <path>` | — | Save the report to a file |
 | `--include-content` | `false` | Include instruction text in exports |
 | `--profiles <a,b>` | `codex,claude` | Profiles for `compare` |
@@ -110,13 +122,27 @@ npx rulemap inspect . --file src/auth.ts --web
 
 Opens a local-only viewer at `127.0.0.1` with:
 - Interactive instruction map with real-time editing
-- Agent comparison view
+- Agent comparison view (same repo, different rules)
 - File browser with status indicators
 - Built-in demo scenarios
 - JSON export (content redacted by default)
-- Folder import from the browser (files never leave your device)
+- Folder import from the browser (files stay on your device)
 
-The viewer is also deployed at [mansoor-mamnoon.github.io/rulemap](https://mansoor-mamnoon.github.io/rulemap/) with demo repositories for quick exploration.
+Also available at [mansoor-mamnoon.github.io/rulemap](https://mansoor-mamnoon.github.io/rulemap/) with demo repositories.
+
+## Built-in demos
+
+```bash
+npx rulemap demo --web                    # The hidden override
+npx rulemap demo --example glob-mismatch  # The glob that misses
+npx rulemap demo --example agent-switch   # Same repo, different context
+```
+
+| Scenario | What it shows |
+|----------|---------------|
+| **The hidden override** | An `AGENTS.override.md` silently replaces your testing instructions |
+| **The glob that misses** | A `src/*.ts` glob doesn't reach `src/api/auth.ts` |
+| **Same repo, different context** | Four agents see completely different rules from the same files |
 
 ## Programmatic API
 
@@ -139,22 +165,7 @@ for (const rule of result.rules) {
 }
 ```
 
-## Built-in demos
-
-```bash
-npx rulemap demo --web                    # The hidden override
-npx rulemap demo --example glob-mismatch  # The glob that misses
-npx rulemap demo --example agent-switch   # Same repo, different context
-```
-
-Each demo is a minimal synthetic repository that shows a real instruction surprise:
-- **The hidden override**: An `AGENTS.override.md` silently replaces your testing instructions
-- **The glob that misses**: A `src/*.ts` glob doesn't reach `src/api/auth.ts`
-- **Same repo, different context**: Four agents see completely different rules from the same files
-
 ## Privacy
-
-Rulemap is read-only and local by design:
 
 - No API keys, accounts, or telemetry
 - No network requests (the CLI never calls home)
