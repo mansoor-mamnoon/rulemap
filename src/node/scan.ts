@@ -29,6 +29,7 @@ export async function scanRepository(inputRoot: string, fallbackNames: string[] 
   let names: string[];
   try {
     names = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], { cwd: root, encoding: 'utf8', maxBuffer: 4 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }).split('\0').filter(Boolean);
+    if (!names.length) throw new Error('git returned no files');
   } catch {
     names = await walk(root);
     diagnostics.push({ code: 'NO_GIT_INDEX', severity: 'info', message: 'No Git inventory available. Common build/cache folders are skipped; .gitignore is not interpreted.' });
