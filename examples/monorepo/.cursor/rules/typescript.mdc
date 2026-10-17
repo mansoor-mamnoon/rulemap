@@ -1,0 +1,6 @@
+---
+globs: "**/*.ts"
+alwaysApply: false
+---
+Prefer explicit return types on exported functions.
+Avoid the `any` type.
